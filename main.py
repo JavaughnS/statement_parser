@@ -9,35 +9,105 @@ class StatementParserApp(ctk.CTk):
     def __init__(self):
         super().__init__()
 
+        institutions = ["TD Bank", "Simplii Financial"]
+        accounts = ["TD VISA", "Simplii Chequing", "Simplii Savings"]
+        self.input_text = tk.StringVar()
+
         self.title("Statement Parser")
-        self.geometry("400x400")
+        self.geometry("720x480")
 
-        # Configure a grid for vertical centering
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_rowconfigure((0, 1, 2), weight=1)
+        # Institution dropdown
+        self.institution_input_label = ctk.CTkLabel(self, text="Select an institution:")
+        self.institution_input_label.pack(padx=100, pady=(50, 5), anchor="w")
 
-        # Input 1: Dropdown with options a to d
-        self.label1 = ctk.CTkLabel(self, text="Input 1")
-        self.label1.grid(row=0, column=0, sticky="w", padx=20, pady=(20, 5))
+        self.institution = ctk.StringVar(value="Make selection")
+        self.institution_dropdown = ctk.CTkComboBox(self, width=150, values=institutions, variable=self.institution)
+        self.institution_dropdown.pack(padx=100, pady=(5, 20), anchor="w")
 
-        self.option_var1 = ctk.StringVar(value="a")
-        self.dropdown1 = ctk.CTkComboBox(self, values=["a", "b", "c", "d"], variable=self.option_var1)
-        self.dropdown1.grid(row=0, column=1, sticky="w", padx=20, pady=(5, 20))
+        # Accounts dropdown
+        self.accounts_input_label = ctk.CTkLabel(self, text="Select an account:")
+        self.accounts_input_label.pack(padx=100, pady=(20, 5), anchor="w")
 
-        # Input 2: Dropdown with options 1 to 3
-        self.label2 = ctk.CTkLabel(self, text="Input 2")
-        self.label2.grid(row=1, column=0, sticky="w", padx=20, pady=(20, 5))
+        self.account = ctk.StringVar(value="Make selection")
+        self.accounts_dropdown = ctk.CTkComboBox(self, width=150, values=accounts, variable=self.account)
+        self.accounts_dropdown.pack(padx=100, pady=(5, 20), anchor="w")
 
-        self.option_var2 = ctk.StringVar(value="1")
-        self.dropdown2 = ctk.CTkComboBox(self, values=["1", "2", "3"], variable=self.option_var2)
-        self.dropdown2.grid(row=1, column=1, sticky="w", padx=20, pady=(5, 20))
+        # Statement text
+        self.string_input_label = ctk.CTkLabel(self, text="Paste the statement text to be parsed:")
+        self.string_input_label.pack(padx=100, pady=(20, 5), anchor="w")
 
-        # Input 3: Text input field
-        self.label3 = ctk.CTkLabel(self, text="Input 3")
-        self.label3.grid(row=2, column=0, sticky="w", padx=20, pady=(20, 5))
+        self.text_entry = ctk.CTkEntry(self, width=500, textvariable=self.input_text)
+        self.text_entry.pack(padx=100, pady=5, anchor="w")
 
-        self.text_entry = ctk.CTkEntry(self)
-        self.text_entry.grid(row=2, column=1, sticky="w", padx=20, pady=(5, 20))
+        # Buttons
+        button_frame = ctk.CTkFrame(self, fg_color="transparent")
+        button_frame.pack(pady=30)
+
+        self.parse_button = ctk.CTkButton(button_frame, text="Parse", command=self.begin_parse)
+        self.clear_button = ctk.CTkButton(button_frame, text="Clear", command=self.clear_inputs)
+
+        self.parse_button.grid(row=0, column=0, padx=(0, 70), sticky="w")
+        self.clear_button.grid(row=0, column=1, padx=(70, 0), sticky="w")
+
+    def begin_parse(self):
+        print(f"Parsed")
+
+    def clear_inputs(self):
+        self.institution.set("Make selection")
+        self.account.set("Make selection")
+        self.input_text.set("")
+
+    def parse_td_bank_statement(input_text):
+        # Initialize an empty 2D array to store transactions
+        transactions = []
+
+        # Split the input text by new lines to get each transaction line
+        lines = input_text.strip().split("\n")
+
+        # Process each line
+        for line in lines:
+            # Split line by spaces to separate the components
+            parts = line.split()
+
+            # Ensure the line has enough parts to parse a transaction
+            if len(parts) >= 5:
+                # The first two items are the transaction date (month and day)
+                transaction_date = f"{parts[0]} {parts[1]}"
+                # The next two items are the posted date (month and day)
+                posted_date = f"{parts[2]} {parts[3]}"
+                # The description is everything up to the last element (the amount)
+                description = " ".join(parts[4:-1])
+                # The amount is the last element
+                amount = parts[-1]
+
+                # Append the transaction data as a list to the 2D array
+                transactions.append([transaction_date, posted_date, description, amount])
+
+        print(transactions)
+        # return transactions
+
+    def parse_simplii_statement(input_text):
+        # Initialize an empty 2D array to store transactions
+        transactions = []
+
+        # Split the input text by new lines to get each line of the statement
+        lines = input_text.strip().split("\n")
+
+        # Process each transaction in chunks of 5 lines
+        for i in range(0, len(lines), 5):
+            # Ensure there are enough lines left for a complete transaction
+            if i + 4 < len(lines):
+                transaction_date = lines[i].strip()
+                posted_date = lines[i + 1].strip()
+                description = lines[i + 2].strip()
+                balance = lines[i + 3].strip()
+                amount = lines[i + 4].strip()
+
+                # Append the transaction data as a list to the 2D array
+                transactions.append([transaction_date, posted_date, description, balance, amount])
+
+        return transactions
+
 
 # Run the app
 if __name__ == "__main__":
