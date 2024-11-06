@@ -11,10 +11,9 @@ class StatementParserApp(ctk.CTk):
 
         institutions = ["TD Bank", "Simplii Financial"]
         accounts = ["TD VISA", "Simplii Chequing", "Simplii Savings"]
-        self.input_text = tk.StringVar()
 
         self.title("Statement Parser")
-        self.geometry("720x480")
+        self.geometry("720x540")
 
         # Institution dropdown
         self.institution_input_label = ctk.CTkLabel(self, text="Select an institution:")
@@ -36,7 +35,7 @@ class StatementParserApp(ctk.CTk):
         self.string_input_label = ctk.CTkLabel(self, text="Paste the statement text to be parsed:")
         self.string_input_label.pack(padx=100, pady=(20, 5), anchor="w")
 
-        self.text_entry = ctk.CTkEntry(self, width=500, textvariable=self.input_text)
+        self.text_entry = ctk.CTkTextbox(self, width=500, height=150)
         self.text_entry.pack(padx=100, pady=5, anchor="w")
 
         # Buttons
@@ -50,12 +49,13 @@ class StatementParserApp(ctk.CTk):
         self.clear_button.grid(row=0, column=1, padx=(70, 0), sticky="w")
 
     def begin_parse(self):
+        input_text = self.text_entry.get("1.0", tk.END)
         print(f"Parsed")
 
     def clear_inputs(self):
         self.institution.set("Make selection")
         self.account.set("Make selection")
-        self.input_text.set("")
+        self.text_entry.delete("1.0", tk.END)
 
     def parse_td_bank_statement(input_text):
         # Initialize an empty 2D array to store transactions
