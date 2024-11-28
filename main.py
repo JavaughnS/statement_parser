@@ -1,6 +1,6 @@
 import tkinter as tk
 import customtkinter as ctk
-from input import InstitutionType, AccountType, AppInputs
+from input import Institutions, Accounts, AppInputs
 from run import begin_parse, clear_inputs
 
 # Initialize customtkinter theme
@@ -19,14 +19,14 @@ class StatementParserApp(ctk.CTk):
         self.title("Statement Parser")
         self.geometry("720x540")
 
-        self.institutions = [institution.value for institution in InstitutionType]
-        self.accounts = [account.value[1] for account in AccountType]
+        self.institutions = [institution.value for institution in Institutions]
+        self.accounts = [account.value[1] for account in Accounts]
 
         self.app_inputs = AppInputs()
 
         self.app_inputs.institution = ctk.StringVar(value="Make selection")
         self.app_inputs.account = ctk.StringVar(value="Make selection")
-        self.app_inputs.path_entry = ctk.StringVar()
+        self.app_inputs.pdf_path = ctk.StringVar()
 
         # Institutions dropdown
         self.institution_input_label = ctk.CTkLabel(self, text="Select an institution:")
@@ -48,7 +48,7 @@ class StatementParserApp(ctk.CTk):
 
         self.path_entry_frame = ctk.CTkFrame(self)
         self.path_entry_frame.pack(padx=100, pady=5, anchor="w")
-        self.path_entry = tk.Entry(self.path_entry_frame, textvariable=self.app_inputs.path_entry, width=55)
+        self.path_entry = tk.Entry(self.path_entry_frame, textvariable=self.app_inputs.pdf_path, width=55)
         self.scrollbar = tk.Scrollbar(self.path_entry_frame, orient='horizontal', command=self.path_entry.xview)
         self.path_entry.config(xscrollcommand=self.scrollbar.set)
         self.path_entry.pack(side="top", fill="x")
