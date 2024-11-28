@@ -51,8 +51,8 @@ class DataHelper:
             )
 
     def format_td_amount(self, row):
-        # TODO: flip the signs for TD VISA
         amount = re.sub(r"[$,]", "", row[3])
+        amount = f"-{amount}" if amount[0] != "-" else amount[1:]
         return amount
     
     def format_simplii_amount(self, row):
