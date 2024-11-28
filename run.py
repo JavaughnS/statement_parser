@@ -1,6 +1,7 @@
 from input import Institutions, Accounts, InputData
 from util.pdf_helper import PDFHelper
 from util.data_helper import DataHelper
+from util.excel_helper import ExcelHelper
 
 def begin_parse(app_inputs):
     pdf_path = app_inputs.pdf_path.get()
@@ -32,8 +33,11 @@ def begin_parse(app_inputs):
     data_helper = DataHelper(input_data, raw_data)
     # This will only generate tables for the cashflows table for now
     records = data_helper.prepare_records()
-
     print(records)
+
+    print("Data formatted. Exporting to Excel...")
+    excel_output_path = ExcelHelper(input_data, records).export_to_excel()
+    print(f"Records from {input_data.statement_title} have been successfully extracted to {excel_output_path}")
 
 
 def clear_inputs(app_inputs):

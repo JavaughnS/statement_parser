@@ -1,4 +1,5 @@
 from input import Institutions
+from datetime import datetime
 import re
 import pandas
 
@@ -52,16 +53,16 @@ class DataHelper:
 
     def format_td_amount(self, row):
         amount = re.sub(r"[$,]", "", row[3])
-        amount = f"-{amount}" if amount[0] != "-" else amount[1:]
+        amount = float(f"-{amount}") if amount[0] != "-" else float(amount[1:])
         return amount
     
     def format_simplii_amount(self, row):
         if row[3] not in [None, ""] and row[5] in [None, ""]:
-            amount = f"-{row[3].replace(",", "")}"
+            amount = float(f"-{row[3].replace(",", "")}")
         elif row[3] in [None, ""] and row[5] not in [None, ""]:
-            amount = row[5].replace(",", "")
+            amount = float(row[5].replace(",", ""))
         else:
-            amount = "0"
+            amount = 0
 
         return amount
     
@@ -71,7 +72,7 @@ class DataHelper:
             month = row[0][:3].upper()
             day = f"0{row[0][3:].strip()}" if len(row[0][3:].strip()) == 1 else f"{row[0][3:].strip()}"
 
-            date = f"{self.year}-{self.months.get(month)}-{day}"
+            date = datetime(int(self.year), int(self.months.get(month)), int(day)).date()
             type = self.account_type.get(self.account_enum.value[0]) if self.account_enum.value[0] in self.account_type else "Cash"
             account = self.account_enum.value[2]
             amount = self.format_td_amount(row) if self.institution_enum == Institutions.TD else self.format_simplii_amount(row)
