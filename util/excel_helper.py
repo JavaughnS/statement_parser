@@ -26,7 +26,7 @@ class ExcelHelper:
         month_num = self.records["Date"].iloc[-1].month
         month_name = next((k for k, v in self.months.items() if int(v) == month_num), None)
 
-        excel_file_path = Path.home() / "Downloads" / f"Cashflows-{self.institution}-{month_name}_{self.year}.xlsx"
+        excel_file_path = Path.home() / "Downloads" / f"Cashflows-{self.institution}-{month_name}_{self.year}.xlsx" #TODO: use a substring search on the statement path for the month instead
         
         self.records.to_excel(excel_file_path, index=False)
         

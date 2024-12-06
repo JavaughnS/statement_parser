@@ -76,7 +76,7 @@ class DataHelper:
             type = self.account_type.get(self.account_enum.value[0]) if self.account_enum.value[0] in self.account_type else "Cash"
             account = self.account_enum.value[2]
             amount = self.format_td_amount(row) if self.institution_enum == Institutions.TD else self.format_simplii_amount(row)
-            details = row[2] if self.institution_enum == Institutions.TD else row[2]
+            details = row[2].replace("\n", " ")
 
             record = [date, type, account, "", amount, details]
             table.append(record)

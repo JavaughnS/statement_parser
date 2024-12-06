@@ -38,7 +38,10 @@ class PDFHelper():
     # repeated code
     def get_extraction_config(self):
         if self.institution_enum == Institutions.TD:
-            self.table_settings = {"vertical_strategy": "text"}
+            self.table_settings = {
+                "vertical_strategy": "explicit",
+                "explicit_vertical_lines": [45, 93, 138, 307, 345]
+            }
         elif self.institution_enum == Institutions.SIMPLII:
             # TODO: try playing with intersection_y_tolerance to see if
             # you can properly capture cells with multiple lines
@@ -50,10 +53,12 @@ class PDFHelper():
             )
 
 
-    def extract_statement_data(self, page):
+    def extract_statement_data(self, page_num, page):
         if self.institution_enum == Institutions.TD:
-            b_box = (0, 0, 347, 616)
-            table = page.within_bbox(b_box).extract_table(self.table_settings)
+            if page_num == 1:
+                table = page.extract_table(self.table_settings)
+            else:
+                table = page.extract_table(self.table_settings)
             return table
         elif self.institution_enum == Institutions.SIMPLII:
             table = page.extract_tables(self.table_settings)
@@ -84,12 +89,18 @@ class PDFHelper():
             self.get_extraction_config()
         # try:
             with pdfplumber.open(self.pdf_path) as statement:
+                # pg = statement.pages[0]
+                # im = pg.to_image()
+                # im.draw_vlines([45, 93, 138, 307, 345])
+                # im.show()
                 with open("output/extracted_tables.txt", "w", encoding="utf-8") as output_file:
                     contents = []
                     data = []
 
-                    for page in statement.pages:
-                        contents.append(self.extract_statement_data(page))
+                    total_pages = len(statement.pages)
+                    for page_num, page in enumerate(statement.pages, start=1):
+                        last_page = True if page_num == total_pages else False
+                        contents.append(self.extract_statement_data(page_num, page))
 
                     if contents:
                         for table in contents:
