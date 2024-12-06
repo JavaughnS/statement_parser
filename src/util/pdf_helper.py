@@ -1,5 +1,5 @@
 import pdfplumber
-from input import Institutions
+from ..input import Institutions
 
 
 class PDFHelper():

@@ -1,4 +1,4 @@
-from input import Institutions
+from ..input import Institutions
 from datetime import datetime
 import re
 import pandas

@@ -1,7 +1,7 @@
-from input import Institutions, Accounts, InputData
-from util.pdf_helper import PDFHelper
-from util.data_helper import DataHelper
-from util.excel_helper import ExcelHelper
+from .input import Institutions, Accounts, InputData
+from .util.pdf_helper import PDFHelper
+from .util.data_helper import DataHelper
+from .util.excel_helper import ExcelHelper
 
 def begin_parse(app_inputs):
     pdf_path = app_inputs.pdf_path.get()
@@ -43,4 +43,4 @@ def begin_parse(app_inputs):
 def clear_inputs(app_inputs):
     app_inputs.institution.set("Make selection")
     app_inputs.account.set("Make selection")
-    app_inputs.path_entry.set("")
+    app_inputs.pdf_path.set("")
