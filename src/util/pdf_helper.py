@@ -1,5 +1,5 @@
 import pdfplumber
-from ..constants import MONTHS
+from src.constants import MONTHS
 
 
 class PDFHelper():
@@ -8,7 +8,7 @@ class PDFHelper():
 
 
     def is_pdf_scanned(self):
-        with pdfplumber.open(self.input_data["pdf-path"]) as statement:
+        with pdfplumber.open(self.input_data['pdf-path']) as statement:
             found_text = any(page.extract_text() for page in statement.pages)
             if found_text:
                 return False
@@ -16,16 +16,16 @@ class PDFHelper():
 
 
     def extract_statement_data(self, page):
-        if self.input_data["scan-mode"] is False:
-            table = page.extract_table(self.input_data["table-settings"])
+        if self.input_data['scan-mode'] is False:
+            table = page.extract_table(self.input_data['table-settings'])
             return table
-        elif self.input_data["scan-mode"] is True:
-            table = page.extract_tables(self.input_data["table-settings"])
+        elif self.input_data['scan-mode'] is True:
+            table = page.extract_tables(self.input_data['table-settings'])
             return table
         else:
             print(
                 f"Error: Extraction for PDF files from \
-                    {self.input_data["institution"] if self.input_data["institution"] else 'Unknown Institution'} \
+                    {self.input_data['institution'] if self.input_data['institution'] else 'Unknown Institution'} \
                         is not supported. Please select a supported institution."
             )
 
@@ -46,7 +46,7 @@ class PDFHelper():
     
     def read_statement(self):
         # try:
-            with pdfplumber.open(self.input_data["pdf-path"]) as statement:
+            with pdfplumber.open(self.input_data['pdf-path']) as statement:
                 # pg = statement.pages[0]
                 # im = pg.to_image()
                 # im.draw_vlines([60, 95, 129, 308, 349])
@@ -69,7 +69,7 @@ class PDFHelper():
 
                     print("Table extraction complete. Check the extracted_table.txt file.")
                 else:
-                    print(f"No tables were found in {self.input_data["statement-title"]}\n")
+                    print(f"No tables were found in {self.input_data['statement-title']}\n")
             
             return data
         # except Exception as e:

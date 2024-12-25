@@ -1,7 +1,7 @@
 import customtkinter as ctk
-from .input import AppInputs
-from .constants import ACCOUNT, MONTHS, NETWORK, OUTPUT_TYPES, TARGETS
-from .run import begin_parse, clear_inputs
+from src.input import AppInputs
+from src.constants import ACCOUNT, MONTHS, NETWORK, OUTPUT_TYPES, TARGETS
+from src.run import begin_parse, clear_inputs
 
 # Initialize customtkinter theme
 ctk.set_appearance_mode("System")  # Light or Dark
@@ -100,7 +100,11 @@ class StatementParserApp(ctk.CTk):
             row=3, column=0, padx=10, pady=(10, 5), sticky="w"
         )
         self.bank_name_entry = ctk.CTkEntry(
-            statement_info_frame, textvariable=self.app_inputs.institution, state="disabled"
+            statement_info_frame,
+            textvariable=self.app_inputs.institution,
+            state="disabled",
+            fg_color="gray",
+            text_color="darkgray"
         )
         self.bank_name_entry.grid(row=4, column=0, padx=10, pady=5, sticky="ew")
 
@@ -108,7 +112,11 @@ class StatementParserApp(ctk.CTk):
         ctk.CTkLabel(statement_info_frame, text="Enter the number of columns your statement's records table has:").grid(
             row=5, column=0, padx=10, pady=(10, 5), sticky="w")
         self.column_count_entry = ctk.CTkEntry(
-            statement_info_frame, textvariable=self.app_inputs.column_count, state="disabled"
+            statement_info_frame,
+            textvariable=self.app_inputs.column_count,
+            state="disabled",
+            fg_color="gray",
+            text_color="darkgray"
         )
         self.column_count_entry.grid(row=6, column=0, padx=10, pady=5, sticky="ew")
 
@@ -122,7 +130,7 @@ class StatementParserApp(ctk.CTk):
 
         self.table_settings_textbox = ctk.CTkTextbox(self.table_settings_frame, height=100)
         self.table_settings_textbox.insert("1.0", "{\n    // Enter JSON here\n}")
-        self.table_settings_textbox.configure(state="disabled")
+        self.table_settings_textbox.configure(state="disabled", fg_color="gray", text_color="darkgray")
         self.table_settings_textbox.grid(row=0, column=0, sticky="nsew")
 
         table_settings_textbox_scrollbar = ctk.CTkScrollbar(
@@ -246,7 +254,11 @@ class StatementParserApp(ctk.CTk):
         output_filepath_frame.grid_columnconfigure(0, weight=1)
 
         self.out_path_entry = ctk.CTkEntry(
-            output_filepath_frame, textvariable=self.app_inputs.output_filepath, state="disabled"
+            output_filepath_frame,
+            textvariable=self.app_inputs.output_filepath,
+            state="disabled",
+            fg_color="gray",
+            text_color="darkgray"
         )
         self.out_path_entry.grid(row=0, column=0, sticky="ew")
         ctk.CTkScrollbar(

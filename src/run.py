@@ -1,44 +1,44 @@
-from .input import AppInputs
+from src.input import AppInputs
 import os
 import json
-from .constants import OUTPUT_TYPES
+from src.constants import OUTPUT_TYPES
 from jsonschema import validate, ValidationError, SchemaError
-from .util.pdf_helper import PDFHelper
-from .util.data_helper import DataHelper
-from .util.output_helper import ExcelHelper
+from src.util.pdf_helper import PDFHelper
+from src.util.data_helper import DataHelper
+from src.util.output_helper import ExcelHelper
 
 def load_inputs(app_inputs: AppInputs) -> dict:
     script_dir = os.path.dirname(__file__)
     input_data = {}
 
-    input_data["target"] = app_inputs.target.get()
-    input_data["pdf-path"] = app_inputs.pdf_path.get().strip()
-    input_data["statement-month"] = app_inputs.statement_month.get()
-    input_data["statement-year"] = app_inputs.statement_year.get().strip().replace(" ", "_")
-    input_data["account-type"] = app_inputs.account_type.get()
-    input_data["output-type"] = OUTPUT_TYPES[app_inputs.output_type.get()]
-    input_data["output-filepath"] = app_inputs.output_filepath.get().strip()
+    input_data['target'] = app_inputs.target.get()
+    input_data['pdf-path'] = app_inputs.pdf_path.get().strip()
+    input_data['statement-month'] = app_inputs.statement_month.get()
+    input_data['statement-year'] = app_inputs.statement_year.get().strip().replace(" ", "_")
+    input_data['account-type'] = app_inputs.account_type.get()
+    input_data['output-type'] = OUTPUT_TYPES[app_inputs.output_type.get()]
+    input_data['output-filepath'] = app_inputs.output_filepath.get().strip()
 
-    input_data["statement-title"] = input_data["pdf-path"].rsplit("/", 1)[-1]
+    input_data['statement-title'] = input_data['pdf-path'].rsplit("/", 1)[-1]
 
-    if input_data["target"] == "CUSTOM":
-        input_data["institution"] = app_inputs.institution.get().strip().replace(" ", "_")
-        input_data["table-settings"] = json.loads(app_inputs.table_settings.get("1.0", "end").strip())
-        input_data["scan-mode"] = False if app_inputs.scan_mode.get() == 0 else True
-        input_data["column-count"] = app_inputs.column_count.get()
+    if input_data['target'] == "CUSTOM":
+        input_data['institution'] = app_inputs.institution.get().strip().replace(" ", "_")
+        input_data['table-settings'] = json.loads(app_inputs.table_settings.get("1.0", "end").strip())
+        input_data['scan-mode'] = False if app_inputs.scan_mode.get() == 0 else True
+        input_data['column-count'] = app_inputs.column_count.get()
 
-        input_data["method"] = ""
+        input_data['method'] = ""
     else:
         file_path = os.path.join(script_dir, "configs.json")
         with open(file_path, "r") as json_file:
             configs = json.load(json_file)
-        config = configs[input_data["target"]]
-        input_data["institution"] = input_data["target"]
-        input_data["table-settings"] = config["table-settings"]
-        input_data["scan-mode"] = False if config["scan-mode"] == 0 else True
-        input_data["column-count"] = config["column-count"]
+        config = configs[input_data['target']]
+        input_data['institution'] = input_data['target']
+        input_data['table-settings'] = config['table-settings']
+        input_data['scan-mode'] = False if config['scan-mode'] == 0 else True
+        input_data['column-count'] = config['column-count']
 
-        input_data["method"] = config["method"]
+        input_data['method'] = config['method']
 
     # try:
     # validate(instance=input_data, schema=os.path.join(script_dir, "input_schema.json"))   
@@ -67,7 +67,7 @@ def begin_parse(app_inputs: AppInputs):
               Please try again with a text-based PDF file.")
         return
     
-    print(f"Beginning table extraction from {input_data["statement-title"]}.")
+    print(f"Beginning table extraction from {input_data['statement-title']}.")
     raw_data = pdf_helper.read_statement()
     # TODO: implement error handling
     print("Table extraction complete. Cleaning and formatting data...")
@@ -78,7 +78,7 @@ def begin_parse(app_inputs: AppInputs):
 
     print("Data formatted. Exporting to Excel...")
     file_output_path = ExcelHelper(input_data, records).export()
-    print(f"Records from {input_data["statement-title"]} have been successfully extracted to {file_output_path}")
+    print(f"Records from {input_data['statement-title']} have been successfully extracted to {file_output_path}")
 
 
 def clear_inputs(app_inputs: AppInputs):
