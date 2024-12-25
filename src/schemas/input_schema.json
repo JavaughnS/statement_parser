@@ -1,0 +1,40 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema",
+    "title": "Input Schema",
+    "type": "object",
+    "properties": {
+        "target": { "type": "string" },
+        "institution": {
+            "type": "string"
+        },
+        "table-settings": { "$ref": "table_settings_schema.json" },
+        "scan-mode": { "type": "boolean" },
+        "pdf-path": {
+            "type": "string",
+            "minLength": 1
+        },
+        "statement-month": { "type": "string" },
+        "statement-year": { "type": "string" },
+        "account-type": { "type": "string" },
+        "card-type": { "type": "string" },
+        "output-type": { "type": "string" },
+        "output-filepath": {
+            "type": "string",
+            "minLength": 1
+        }
+    },
+    "if": {
+      "properties": {
+        "target": { "const": "Custom" }
+      },
+      "required": ["target"]
+    },
+    "then": {
+      "required": ["table-settings"]
+    },
+    "required": [
+        "target", "institution", "table-settings", "scan-mode", "pdf-path",
+        "statement-month", "statement-year", "output-setup", "output-type",
+        "account-type", "card-type", "output-filepath"
+    ]
+}

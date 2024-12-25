@@ -1,0 +1,40 @@
+{
+    "AMEX": {
+        "table-settings" : {},
+        "scan-mode": 0,
+        "column-count": 0,
+        "method": ""
+    },
+    "CIBC": {
+        "table-settings" : {},
+        "scan-mode": 0,
+        "column-count": 0,
+        "method": ""
+    },
+    "SIMPLII": {
+        "table-settings" : {
+            "horizontal_strategy": "text"
+        },
+        "scan-mode": 1,
+        "column-count": 7,
+        "method": "Simplii Chequing (Interac)"
+    },
+    "RBC": {
+        "table-settings" : {
+            "vertical_strategy": "explicit",
+            "explicit_vertical_lines": [60, 95, 129, 309, 349]
+        },
+        "scan-mode": 0,
+        "column-count": 4,
+        "method": ""
+    },
+    "TD": {
+        "table-settings" : {
+            "vertical_strategy": "explicit",
+            "explicit_vertical_lines": [45, 93, 138, 307, 345]
+        },
+        "scan-mode": 0,
+        "column-count": 4,
+        "method": "TD VISA"
+    }
+}

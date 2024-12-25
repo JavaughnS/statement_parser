@@ -1,23 +1,17 @@
-from enum import Enum
-
-class Institutions(Enum):
-    TD = "TD Bank"
-    SIMPLII = "Simplii Financial"
-
-class Accounts(Enum):
-    TD_VISA = (1, "TD VISA", "TD VISA")
-    SIMPLII_CHEQUING = (2, "Simplii Chequing", "Simplii Chequing (Interac)")
-    SIMPLII_SAVINGS = (3, "Simplii Savings", "Simplii Savings")
+import customtkinter as ctk
 
 class AppInputs:
     def __init__(self):
-        self.institution = None
-        self.account = None
-        self.pdf_path = None
+        self.target = ctk.StringVar()
+        self.institution = ctk.StringVar()
+        self.table_settings = ctk.StringVar()
+        self.scan_mode = ctk.IntVar(value=0)
+        self.column_count = ctk.IntVar(value="")
+        self.pdf_path = ctk.StringVar()
 
-class InputData:
-    def __init__(self):
-        self.institution_enum = None
-        self.account_enum = None
-        self.statement_path = None
-        self.statement_title = None
+        self.out_path_settings = ctk.StringVar(value="DEFAULT")
+        self.statement_month = ctk.StringVar()
+        self.statement_year = ctk.StringVar()
+        self.account_type = ctk.StringVar()
+        self.output_type = ctk.StringVar()
+        self.output_filepath = ctk.StringVar()

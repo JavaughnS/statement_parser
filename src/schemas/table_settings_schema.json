@@ -1,0 +1,130 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema",
+    "title": "Table Settings",
+    "type": "object",
+    "properties": {
+        "vertical_strategy": {
+            "type": "string",
+            "enum": ["lines", "lines_strict", "text", "explicit"]
+        }, 
+        "horizontal_strategy": {
+            "type": "string",
+            "enum": ["lines", "lines_strict", "text", "explicit"]
+        },
+        "explicit_vertical_lines": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+        "explicit_horizontal_lines": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+        "snap_tolerance": {
+          "type": "number",
+          "minimum": 0
+        },
+        "snap_x_tolerance": {
+          "type": "number",
+          "minimum": 0
+        },
+        "snap_y_tolerance": {
+          "type": "number",
+          "minimum": 0
+        },
+        "join_tolerance": {
+          "type": "number",
+          "minimum": 0
+        },
+        "join_x_tolerance": {
+          "type": "number",
+          "minimum": 0
+        },
+        "join_y_tolerance": {
+          "type": "number",
+          "minimum": 0
+        },
+        "edge_min_length": {
+          "type": "number",
+          "minimum": 0
+        },
+        "min_words_vertical": {
+          "type": "number",
+          "minimum": 0
+        },
+        "min_words_horizontal": {
+          "type": "number",
+          "minimum": 0
+        },
+        "intersection_tolerance": {
+          "type": "number",
+          "minimum": 0
+        },
+        "intersection_x_tolerance": {
+          "type": "number",
+          "minimum": 0
+        },
+        "intersection_y_tolerance": {
+          "type": "number",
+          "minimum": 0
+        },
+        "text_tolerance": {
+          "type": "number",
+          "minimum": 0
+        },
+        "text_x_tolerance": {
+          "type": "number",
+          "minimum": 0
+        },
+        "text_y_tolerance": {
+          "type": "number",
+          "minimum": 0
+        }
+    },
+    "anyOf": [
+        {"required": ["vertical_strategy"]},
+        {"required": ["horizontal_strategy"]},
+        {"required": ["explicit_vertical_lines"]},
+        {"required": ["explicit_horizontal_lines"]},
+        {"required": ["snap_tolerance"]},
+        {"required": ["snap_x_tolerance"]},
+        {"required": ["snap_y_tolerance"]},
+        {"required": ["join_tolerance"]},
+        {"required": ["join_x_tolerance"]},
+        {"required": ["join_y_tolerance"]},
+        {"required": ["edge_min_length"]},
+        {"required": ["min_words_vertical"]},
+        {"required": ["min_words_horizontal"]},
+        {"required": ["intersection_tolerance"]},
+        {"required": ["intersection_x_tolerance"]},
+        {"required": ["intersection_y_tolerance"]},
+        {"required": ["text_tolerance"]},
+        {"required": ["text_x_tolerance"]},
+        {"required": ["text_y_tolerance"]}
+    ],
+    "allOf": [
+      {
+        "if": {
+          "properties": { "vertical_strategy": { "const": "explicit" } },
+          "required": ["vertical_strategy"]
+        },
+        "then": {
+          "required": ["explicit_vertical_lines"]
+        }
+      },
+      {
+        "if": {
+          "properties": { "horizontal_strategy": { "const": "explicit" } },
+          "required": ["horizontal_strategy"]
+        },
+        "then": {
+          "required": ["explicit_horizontal_lines"]
+        }
+      }
+    ]
+}
